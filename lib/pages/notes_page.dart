@@ -110,6 +110,7 @@ class _NotesPageState extends State<NotesPage> {
           onPressed: createNote,
           child: const Icon(Icons.add),
         ),
+        drawer: Drawer(),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
