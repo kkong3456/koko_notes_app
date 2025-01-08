@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:koko_notes_app/models/note_database.dart';
 import 'package:koko_notes_app/pages/notes_page.dart';
+import 'package:koko_notes_app/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NoteDatabase.initialize();
 
+  // runApp(
+  //   ChangeNotifierProvider(
+  //     create: (_) => NoteDatabase(),
+  //     child: const MyApp(),
+  //   ),
+  // );
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => NoteDatabase(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NoteDatabase()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -21,7 +31,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
+      theme: context.read<ThemeProvider>().themeData,
       home: NotesPage(),
     );
   }
