@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:koko_notes_app/models/note.dart';
 import 'package:koko_notes_app/models/note_database.dart';
 import 'package:provider/provider.dart';
@@ -100,41 +101,55 @@ class _NotesPageState extends State<NotesPage> {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
-          title: const Text(
-            'Notes',
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          backgroundColor: Colors.blue,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: createNote,
           child: const Icon(Icons.add),
         ),
-        body: ListView.builder(
-          itemCount: currentNotes.length,
-          itemBuilder: (context, index) {
-            final note = currentNotes[index];
-            return ListTile(
-              title: Text(note.text),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    onPressed: () => updateNote(note),
-                    icon: Icon(Icons.edit),
-                  ),
-                  IconButton(
-                    onPressed: () => deleteNote(note.id),
-                    icon: Icon(Icons.delete),
-                  ),
-                ],
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //Heading
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text(
+                'Notes',
+                style: GoogleFonts.dmSerifText(
+                  fontSize: 48,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
               ),
-            );
-          },
+            ),
+            //List of notes
+            Expanded(
+              child: ListView.builder(
+                itemCount: currentNotes.length,
+                itemBuilder: (context, index) {
+                  final note = currentNotes[index];
+                  return ListTile(
+                    title: Text(note.text),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () => updateNote(note),
+                          icon: Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () => deleteNote(note.id),
+                          icon: Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
