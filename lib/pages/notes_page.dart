@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:koko_notes_app/components/drawer.dart';
+import 'package:koko_notes_app/components/note_tile.dart';
 import 'package:koko_notes_app/models/note.dart';
 import 'package:koko_notes_app/models/note_database.dart';
 import 'package:provider/provider.dart';
@@ -105,12 +107,13 @@ class _NotesPageState extends State<NotesPage> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
+          foregroundColor: Theme.of(context).colorScheme.inversePrimary,
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: createNote,
           child: const Icon(Icons.add),
         ),
-        drawer: Drawer(),
+        drawer: MyDrawer(),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -131,21 +134,10 @@ class _NotesPageState extends State<NotesPage> {
                 itemCount: currentNotes.length,
                 itemBuilder: (context, index) {
                   final note = currentNotes[index];
-                  return ListTile(
-                    title: Text(note.text),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () => updateNote(note),
-                          icon: Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () => deleteNote(note.id),
-                          icon: Icon(Icons.delete),
-                        ),
-                      ],
-                    ),
+                  return NoteTile(
+                    text: note.text,
+                    onEditPressed: () => updateNote(note),
+                    onDeletePressed: () => deleteNote(note.id),
                   );
                 },
               ),
